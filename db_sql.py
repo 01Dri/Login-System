@@ -5,9 +5,9 @@ import os
 from os import system
 
 
-
 class banco_dados():
 
+      #Chjamando a class sistema do arquivo functionss 
       # informações para conexao com o banco de dados
       host = 'localhost'
       user = 'root'
@@ -48,22 +48,16 @@ class banco_dados():
             #Serie de validações para confirmar se o usuario digitado não existe
             while resultado is not None:
                   print(Fore.RED + "Nome de usuario já cadastrado!")
-                  #resolver problema da escolha 2 do usuario
-                  pergunta = input("Deseja continuar ou fazer login? : [1] Tentar Novamente / [2] Menu: ")
-                  if pergunta == '1':
-                        nome = input("Digite novamente um nome: ")
-                        email = input("Digite novamente o email: ")
-                        senha = input("Digite novamente a senha: ")
-                        consulta = 'SELECT * FROM clientes WHERE nome = %s'
-                        self.cursor.execute(consulta, (nome,))
-                        resultado = self.cursor.fetchone()
-                        if resultado is None:
-                              break
+                
+                  nome = input("Digite novamente um nome: ")
+                  email = input("Digite novamente o email: ")
+                  senha = input("Digite novamente a senha: ")
+                  consulta = 'SELECT * FROM clientes WHERE nome = %s'
+                  self.cursor.execute(consulta, (nome,))
+                  resultado = self.cursor.fetchone()
+                  if resultado is None:
+                        break
                       
-                  if pergunta == '2':
-                        self.cursor.close()
-                        self.conexao.close()
-                        return False
                   
 
             consulta = 'SELECT * FROM clientes WHERE email = %s'
@@ -71,22 +65,14 @@ class banco_dados():
             resultado = self.cursor.fetchone()
             while resultado is not None:
                   print(Fore.RED + "Email  já cadastrado!" + Fore.RESET)
-
-                  #resolver problema da escolha 2 do usuario
-                  pergunta = input("Deseja continuar ou fazer login? : [1] Tentar Novamente / [2] Menu: ")
-                  if pergunta == '1':
-                        email = input("Digite novamente o email: ")
-                        consulta = 'SELECT * FROM clientes WHERE email = %s'
-                        self.cursor.execute(consulta, (email,))
-                        resultado = self.cursor.fetchone()
-                        if resultado is None:
-                              break
-                        
-                  if pergunta == '2':
-                        self.cursor.close()
-                        self.conexao.close()
-                        return False
             
+                  email = input("Digite novamente o email: ")
+                  consulta = 'SELECT * FROM clientes WHERE email = %s'
+                  self.cursor.execute(consulta, (email,))
+                  resultado = self.cursor.fetchone()
+                  if resultado is None:
+                        break
+                        
             # Inserindo dados no mysql após condições
             self.cursor.execute('INSERT INTO clientes (nome, email, senha) VALUES (%s, %s, %s)', (nome, email, senha))
             self.conexao.commit()
@@ -108,6 +94,7 @@ class banco_dados():
             
             while resultado is None:
                   user = input(Fore.RED + "Nome incorreto!, digite novamente: " + Fore.RESET)
+                  senha_user = input("Digite novamente sua senha: ")
                   consulta = 'SELECT * FROM clientes WHERE nome = %s'
                   self.cursor.execute(consulta, (user,))
                   resultado = self.cursor.fetchone()

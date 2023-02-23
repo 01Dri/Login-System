@@ -29,6 +29,7 @@ class sistema():
     def menu(self):
 
         os.system('cls')
+        
     
         print('Sistema de Login\n'
         '\n'
