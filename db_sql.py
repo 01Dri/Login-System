@@ -4,7 +4,6 @@ import time
 import os
 from os import system
 
-
 class banco_dados():
 
       #Chjamando a class sistema do arquivo functionss 
@@ -15,15 +14,20 @@ class banco_dados():
 
       # funcão para conectar ao db
       def conecta(self):
-            self.conexao = pymysql.connect(
-            host=self.host,
-            user=self.user,
-            password=self.password,
-            db='usuarios',
-            charset='utf8mb4',
-            cursorclass=pymysql.cursors.DictCursor
-            )
-            self.cursor = self.conexao.cursor()
+            try: 
+                  self.conexao = pymysql.connect(
+                  host=self.host,
+                  user=self.user,
+                  password=self.password,
+                  db='usuarios',
+                  charset='utf8mb4',
+                  cursorclass=pymysql.cursors.DictCursor
+                  )
+                  self.cursor = self.conexao.cursor()
+            except:
+                  print(Fore.RED + 'Banco de dados off-line ou inexistente!' + Fore.RESET)
+                  exit()
+      
 
             # verificando seu a table cliente, se não, ele cria uma com os valores nome, email, senha
             #Se sim, ele ignora ele pula para o reesto do código
@@ -78,7 +82,6 @@ class banco_dados():
             self.conexao.commit()
             self.cursor.close()
             self.conexao.close()
-            return True
                   
             
       # Função para validar e fazer  o login do usuario, se realmente existe na base de dados
